@@ -8,7 +8,12 @@ Vue.use(Vuex)
 const state = {
   user: ls.getItem('user'),
   // 添加 auth 来保存当前用户的登录状态
-  auth: ls.getItem('auth')
+  auth: ls.getItem('auth'),
+  // 所有文章状态
+  articles: ls.getItem('articles'),
+  navIndex: 0,
+  subNavIndex: 1
+
 }
 
 const mutations = {
@@ -20,7 +25,21 @@ const mutations = {
   UPDATE_AUTH (state, auth) {
     state.auth = auth
     ls.setItem('auth', auth)
+  },
+  // 更改所有文章的事件类型
+  UPDATE_ARTICLES (state, articles) {
+    state.articles = articles
+    ls.setItem('articles', articles)
+  },
+  UPDATE_NAV (state, nav) {
+    state.navIndex = nav
+  },
+  SUB_UPDATE_NAV (state, nav) {
+
+    state.subNavIndex = nav
+
   }
+
 
 }
 
@@ -34,6 +53,16 @@ const actions = {
   logout ({ commit }) {
     commit('UPDATE_AUTH', false)
     router.push({ name: 'Home', params: { logout: true } })
+  },
+  // 更新个人信息
+  updateUser ({ state, commit }, user) {
+    const stateUser = state.user
+
+    if (stateUser && typeof stateUser === 'object') {
+      user = { ...stateUser, ...user }
+    }
+
+    commit('UPDATE_USER', user)
   }
 }
 

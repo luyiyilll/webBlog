@@ -13,9 +13,21 @@
         <ul class="dropdown-menu">
           <!-- 编辑资料 -->
           <li>
-            <router-link to="/users/1/edit">
+            <router-link to="/users/edit">
               <i class="fa fa-cog text-md i-middle"></i>
               编辑资料
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/articles/create">
+              <i class="fa fa-paint-brush text-md"></i>
+              创作文章
+            </router-link>
+          </li>
+          <li v-if="user">
+            <router-link :to="`/${user.username}`">
+              <i class="fa fa-list-ul text-md i-middle"></i>
+              个人专栏
             </router-link>
           </li>
           <li><a href="javascript:;" @click="logout"><i class="fa fa-sign-out text-md"></i>退出</a></li>

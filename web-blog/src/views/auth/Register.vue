@@ -1,7 +1,6 @@
 <template>
   <div class="row">
     <div class="col-md-4 col-md-offset-4 floating-box">
-      <Message :show.sync="msgShow" :type="msgType" :msg="msg" />
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">请注册</h3>
@@ -43,7 +42,7 @@
 </template>
 
 <script>
-  import { register } from 'network/user.js'
+  import { register, userInfo } from 'network/user.js'
   import createCaptcha from '@/utils/createCaptcha'
   import ls from '@/utils/localStorage'
 
@@ -58,9 +57,6 @@
         cpassword: '', // 确认密码
         captcha: '', // 验证码
 
-        msg: '', // 消息
-        msgType: '', // 消息类型
-        msgShow: false // 是否显示消息，默认不显示
       }
     },
     created() {
@@ -84,7 +80,7 @@
       },
       submit() {
         if (this.captcha.toUpperCase() !== this.localCaptcha) {
-          this.showMsg('验证码不正确')
+          this.$message.error('验证码不正确');
           this.getCaptcha()
         } else {
           const user = {
@@ -93,10 +89,21 @@
             avatar: `https://api.adorable.io/avatars/200/${this.username}.png`
           }
           register(this.username, this.password, user.avatar).then(res => {
-            const localUser = this.$store.state.user
-            this.login(user)
+
+            userInfo(this.username).then(res => {
+              this.login(res.data);
+              let user = {
+                id: res.data[0],
+                username: res.data[1],
+                avatar: res.data[2],
+              }
+              this.login(user)
+            }).catch(err => {
+              console.log(err)
+            })
+
           }).catch(err => {
-            this.showMsg("该用户已存在")
+            this.$message.error('该用户已存在');
           })
           // 
           // if (localUser) {
@@ -112,17 +119,13 @@
       },
       login(user) {
         this.$store.dispatch('login', user)
-        this.showMsg('注册成功', 'success')
-      },
-      showMsg(msg, type = 'warning') {
-        this.msg = msg
-        this.msgType = type
-        this.msgShow = false
+        this.$message({
+          message: '注册成功',
+          type: 'success'
+        });
 
-        this.$nextTick(() => {
-          this.msgShow = true
-        })
-      }
+      },
+
     }
   }
 </script>
