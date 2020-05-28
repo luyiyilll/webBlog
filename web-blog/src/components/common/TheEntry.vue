@@ -30,6 +30,14 @@
               个人专栏
             </router-link>
           </li>
+          <li v-if="user && user.is_admin">
+            <router-link :to="`/admin/manage`">
+              <i class="fa fa-list-ul text-md i-middle"></i>
+              后台管理
+            </router-link>
+          </li>
+
+
           <li><a href="javascript:;" @click="logout"><i class="fa fa-sign-out text-md"></i>退出</a></li>
         </ul>
       </li>

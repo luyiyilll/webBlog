@@ -14,6 +14,7 @@ export default [
     path: '*',
     redirect: '/'
   },
+
   {
     path: '/auth/login',
     name: 'Login',
@@ -85,6 +86,33 @@ export default [
       }
     ]
   },
+
+  /*后台管理*/
+  {
+    path: '/admin/manage',
+    component: () => import('@/views/admin/AdminNav'),
+    children: [
+      {
+        path: '',
+        name: 'AdminUser',
+        component: () => import('@/views/admin/AdminUser'),
+        meta: { auth: true }
+      },
+      {
+        path: '/admin/manage_article',
+        name: 'EditAvatar',
+        component: () => import('@/views/admin/AdminArticle'),
+        meta: { auth: true }
+      },
+      {
+        path: '/admin/manage_comment',
+        name: 'AdminComment',
+        component: () => import('@/views/admin/AdminComment'),
+        meta: { auth: true }
+      }
+    ]
+  },
+
 
 
 ]

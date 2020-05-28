@@ -8,9 +8,9 @@ export function register (username, password, avatar) {
       password,
       avatar,
     },
-    headers: {
-      'Content-type': 'application/json'
-    }
+    // headers: {
+    //   'Content-type': 'application/json'
+    // }
   })
 }
 
@@ -96,4 +96,29 @@ export function getActiveUser () {
 }
 
 
+/*管理系统*/
+export function getAllUsers () {
+  return request({
+    url: 'user/allusers'
+  })
+}
 
+export function deleteUser (uid, username) {
+  return request({
+    url: 'user/deleteuser',
+    method: 'post',
+    params: {
+      uid, username
+    }
+  })
+}
+
+export function adminUpdateUser (id, password, avatar, sex, school, edu, introduce) {
+  return request({
+    url: 'user/adminupdateuser',
+    method: 'post',
+    params: {
+      id, password, avatar, sex, school, edu, introduce
+    }
+  })
+}

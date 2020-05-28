@@ -83,7 +83,8 @@
       }
     },
     created() {
-
+      console.log("home")
+      console.log(this.$store.state.user)
       this.getAllArticles()
       this.getSortList(this.$route.query)
     },

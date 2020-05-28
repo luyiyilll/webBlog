@@ -8,24 +8,21 @@
 
         <div class="panel-body" data-validator-form>
           <div class="form-group">
-            <label class="control-label">用户名</label>
-            <input v-model.trim="username"
-              v-validator:input.required="{ regex: /^[a-zA-Z]+\w*\s?\w*$/, error: '用户名要求以字母开头的单词字符' }" type="text"
-              class="form-control" placeholder="请填写用户名">
+            <el-input v-model.trim="username" @blur="checkUsername" placeholder="请输入用户名"
+              prefix-icon="el-icon-user-solid">
+            </el-input>
           </div>
           <div class="form-group">
-            <label class="control-label">密码</label>
-            <input id="password" v-model.trim="password"
-              v-validator.required="{ regex: /^\w{6,16}$/, error: '密码要求 6 ~ 16 个单词字符' }" type="password"
-              class="form-control" placeholder="请填写密码">
+            <el-input v-model.trim="password" id="password" @blur="checkPassword" type="password" placeholder="请填写密码"
+              prefix-icon="el-icon-warning">
+            </el-input>
           </div>
           <div class="form-group">
-            <label class="control-label">确认密码</label>
-            <input v-model.trim="cpassword" v-validator.required="{ target: '#password' }" type="password"
-              class="form-control" placeholder="请填写确认密码">
+            <el-input v-model.trim="cpassword" @blur="confirmPass" type="password" placeholder="请填写确认密码"
+              prefix-icon="el-icon-success">
+            </el-input>
           </div>
           <div class="form-group">
-            <label class="control-label">图片验证码</label>
             <input v-model.trim="captcha" v-validator.required="{ title: '图片验证码' }" type="text" class="form-control"
               placeholder="请填写验证码">
           </div>
@@ -56,6 +53,9 @@
         password: '', // 密码
         cpassword: '', // 确认密码
         captcha: '', // 验证码
+        checkuser: false,
+        checkpass: false,
+        checkcpass: false
 
       }
     },
@@ -63,16 +63,43 @@
       this.getCaptcha()
     },
     methods: {
+      checkUsername() {
+        console.log(this)
+        let regex = /^[a-zA-Z]+\w*\s?\w*$/
+        if (!regex.test(this.username)) {
+          this.$message.error('用户名要求以字母开头的单词字符！');
+          this.checkuser = false
+        } else {
+          this.checkuser = true
+        }
+      },
+      checkPassword() {
+        let regex = /^\w{6,16}$/
+        if (!regex.test(this.password)) {
+          this.$message.error('密码要求 6 ~ 16 个单词字符！');
+          this.checkpass = false
+        } else {
+          this.checkpass = true
+        }
+      },
+      confirmPass() {
+        if (this.password != this.cpassword) {
+          this.$message.error('密码不匹配！');
+          this.checkcpass = false
+        } else {
+          this.checkcpass = true
+        }
+      },
+
+
       getCaptcha() {
         const { tpl, captcha } = createCaptcha(6)
-
         this.captchaTpl = tpl
         this.localCaptcha = captcha
       },
       register(e) {
         this.$nextTick(() => {
           const target = e.target.type === 'submit' ? e.target : e.target.parentElement
-
           if (target.canSubmit) {
             this.submit()
           }
@@ -83,28 +110,38 @@
           this.$message.error('验证码不正确');
           this.getCaptcha()
         } else {
-          const user = {
-            username: this.username,
-            password: this.password,
-            avatar: `https://api.adorable.io/avatars/200/${this.username}.png`
-          }
-          register(this.username, this.password, user.avatar).then(res => {
+          if (!this.checkuser) {
+            this.$message.error('用户名要求以字母开头的单词字符');
+          } else if (!this.checkpass) {
+            this.$message.error('密码要求 6 ~ 16 个单词字符！');
+          } else if (!this.checkcpass) {
+            this.$message.error('密码不匹配!');
+          } else {
+            const user = {
+              username: this.username,
+              password: this.password,
+              avatar: `https://api.adorable.io/avatars/200/${this.username}.png`
+            }
+            register(user.username, user.password, user.avatar).then(res => {
 
-            userInfo(this.username).then(res => {
-              this.login(res.data);
-              let user = {
-                id: res.data[0],
-                username: res.data[1],
-                avatar: res.data[2],
-              }
-              this.login(user)
+              userInfo(this.username).then(res => {
+                console.log(res.data);
+                let user = {
+                  id: res.data[0],
+                  username: res.data[1],
+                  avatar: res.data[2],
+                  is_admin: res.data[3]
+                }
+                this.login(user)
+              }).catch(err => {
+                console.log(err)
+              })
+
             }).catch(err => {
-              console.log(err)
+              this.$message.error('该用户已存在');
             })
+          }
 
-          }).catch(err => {
-            this.$message.error('该用户已存在');
-          })
           // 
           // if (localUser) {
           //   if (localUser.name === user.name) {
@@ -146,5 +183,28 @@
     font-size: 24px;
     font-weight: bold;
     user-select: none;
+  }
+
+  .form-control {
+    border: 1px solid #DCDFE6;
+    height: 40px;
+  }
+
+  .el-input.is-active .el-input__inner,
+  .el-input__inner:focus {
+    border-color: rgb(108, 166, 205);
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(108, 166, 205, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(108, 166, 205, 0.6);
+  }
+
+  .btn-success {
+    background-color: rgba(108, 166, 205, .8);
+    border-color: rgba(108, 166, 205, .8);
+  }
+
+  .btn-success:hover {
+    background-color: rgb(108, 166, 205);
+    border-color: rgb(108, 166, 205);
   }
 </style>
