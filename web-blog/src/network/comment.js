@@ -40,3 +40,11 @@ export function deleteComment (cid) {
   })
 }
 
+
+/*管理系统*/
+export function getArticleComment () {
+  return request({
+    url: 'comment/allacomment'
+  })
+}
+

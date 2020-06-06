@@ -122,3 +122,5 @@ export function adminUpdateUser (id, password, avatar, sex, school, edu, introdu
     }
   })
 }
+
+

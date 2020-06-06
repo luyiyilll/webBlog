@@ -99,3 +99,12 @@ export function getTypeArticle (type) {
     }
   })
 }
+
+/*管理系统*/
+export function userAndArticle () {
+  return request({
+    url: 'article/allarticlesinfo',
+
+  })
+}
+

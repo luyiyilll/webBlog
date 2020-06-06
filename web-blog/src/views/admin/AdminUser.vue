@@ -11,7 +11,39 @@
             </a>
           </div>
         </div>
-        <ul class="list-group">
+
+        <el-table :data="userList" style="width: 100%" row-key="id" border lazy
+          :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+          <el-table-column prop="avatar" label="头像" width="100" align="center">
+            <template slot-scope="scope">
+              <img :src="scope.row.avatar" class="img-avatar" min-width="70" height="70" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="username" label="用户名" align="center" width="100">
+          </el-table-column>
+          <!-- <el-table-column prop="post_date" label="发布时间">
+        </el-table-column> -->
+          <el-table-column prop="sex" label="性别" width="100" align="center">
+          </el-table-column>
+          <el-table-column prop="school" label="学校" width="100" align="center">
+          </el-table-column>
+          <el-table-column prop="introduce" label="个人简介" align="center">
+          </el-table-column>
+          <el-table-column align="center" width="160">
+            <template slot="header" slot-scope="scope">
+              操作
+            </template>
+            <template slot-scope="scope">
+              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+
+
+
+        <!-- <ul class="list-group">
           <li v-for="(user,index) in userList" class="list-group-item">
             <img :src="user.avatar" class="avatar avatar-small">
             <router-link :to="`/${user.username}`" class="title">
@@ -25,7 +57,7 @@
               </span>
             </span>
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
     <el-dialog title="添加用户" :visible.sync="dialogFormVisible" center width="370px">
@@ -134,7 +166,7 @@
         articleList: '',
         user_id: '',
         info: '',
-        userList: '',
+        userList: [],
 
         formuser: {
           username: '',
@@ -227,7 +259,6 @@
             info.push(data)
           })
           this.userList = info
-          console.log(info)
         }).catch(err => {
           console.log(err)
         })
@@ -287,7 +318,9 @@
         }
 
       },
-      deleteUser(uid, username) {
+      handleDelete(index, row) {
+        let uid = row.id
+        let username = row.username
         this.$swal({
           text: '你确定要删除此用户吗?',
           confirmButtonText: '删除'
@@ -306,20 +339,35 @@
           }
         })
       },
+      // deleteUser(uid, username) {
+      // this.$swal({
+      //   text: '你确定要删除此用户吗?',
+      //   confirmButtonText: '删除'
+      // }).then((res) => {
+      //   if (res.value) {
+      //     // 此时不用传入 comment
+      //     deleteUser(uid, username).then(res => {
+      //       this.getAllUsers()
+      //       this.$message({
+      //         message: '删除成功',
+      //         type: 'success'
+      //       });
+      //     }).catch(err => {
+      //       this.$message.error('删除失败');
+      //     })
+      //   }
+      // })
+      // },
 
-      edit(index) {
-
-        this.currentUserIndex = index
-        console.log(this.userList[this.currentUserIndex].id)
-        let id = this.userList[this.currentUserIndex].id
-        // this.edituser.username = this.userList[this.currentUserIndex].username
-        this.edituser.password = this.userList[this.currentUserIndex].password
+      handleEdit(index, row) {
+        let id = row.id
+        this.edituser.password = row.password
         this.checkPassword(this.edituser.password)
-        this.edituser.avatar = this.userList[this.currentUserIndex].avatar
-        this.edituser.sex = this.userList[this.currentUserIndex].sex
-        this.edituser.school = this.userList[this.currentUserIndex].school
-        this.value = this.userList[this.currentUserIndex].edubg
-        this.edituser.introduce = this.userList[this.currentUserIndex].introduce
+        this.edituser.avatar = row.avatar
+        this.edituser.sex = row.sex
+        this.edituser.school = row.school
+        this.value = row.edubg
+        this.edituser.introduce = row.introduce
         this.dialogEditVisible = true
       },
 
@@ -426,5 +474,12 @@
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(108, 166, 205, 0.6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(108, 166, 205, 0.6);
     border: 1px solid rgb(108, 166, 205);
+  }
+
+
+  .img-avatar {
+    border: 5px solid rgba(220, 220, 220, .3);
+    border-radius: 10px;
+
   }
 </style>

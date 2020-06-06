@@ -26,7 +26,7 @@
           </li>
           <li v-if="user">
             <router-link :to="`/${user.username}`">
-              <i class="fa fa-list-ul text-md i-middle"></i>
+              <i class="fa fa-file-o text-md i-middle"></i>
               个人专栏
             </router-link>
           </li>
