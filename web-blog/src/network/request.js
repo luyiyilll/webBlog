@@ -1,7 +1,7 @@
 import axios from 'axios'
 export function request (config, success, failure) {
   const instance = axios.create({
-    baseURL: 'http://localhost:8085',
+    baseURL: 'http://123.56.121.160:8085',
     timeout: 5000,
 
 
