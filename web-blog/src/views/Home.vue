@@ -120,8 +120,6 @@
               // Vue.set(item, 'avatar', data.avatar);
             })
             that.allInfo = allInfo
-          }).catch(err => {
-            console.log(err)
           })
         } else if (query.filter == "vote") {
           that.show = 2
@@ -169,8 +167,6 @@
             })
             that.allInfo = allInfo
 
-          }).catch(err => {
-            console.log(err)
           })
         } else if (query.filter == "noreply") {
 
@@ -236,8 +232,6 @@
             })
           })
           // console.log(that.articleList)
-        }).catch(err => {
-          console.log(err)
         })
       }
 

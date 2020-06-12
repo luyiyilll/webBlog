@@ -10,7 +10,7 @@ module.exports = {
       }
     }
   },
-  publicPath: "/",
+  publicPath: "./",
   lintOnSave: true,
   devServer: {
     proxy: {

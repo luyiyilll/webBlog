@@ -97,8 +97,6 @@
             list.push(data);
           })
           this.slides = list;
-        }).catch(err => {
-          console.log(err)
         })
       },
       getActiveUsers() {
@@ -115,8 +113,6 @@
           })
 
           this.activeUsers = list
-        }).catch(err => {
-          console.log(err)
         })
       },
       navTo(name) {
