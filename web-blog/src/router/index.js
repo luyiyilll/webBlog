@@ -6,7 +6,7 @@ Vue.use(Router)
 
 
 const router = new Router({
-  // mode: 'history',
+  mode: 'history',
   routes,
   linkExactActiveClass: 'active',
 })
@@ -27,14 +27,14 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-router.onError((error) => {
-  const pattern = /Loading chunk (\d)+ failed/g;
-  const isChunkLoadFailed = error.message.match(pattern);
-  const targetPath = router.history.pending.fullPath;
-  if (isChunkLoadFailed) {
-    router.replace(targetPath);
-  }
-})
+// router.onError((error) => {
+//   const pattern = /Loading chunk (\d)+ failed/g;
+//   const isChunkLoadFailed = error.message.match(pattern);
+//   const targetPath = router.history.pending.fullPath;
+//   if (isChunkLoadFailed) {
+//     router.replace(targetPath);
+//   }
+// })
 
 
 const originalPush = Router.prototype.push

@@ -119,6 +119,7 @@
               // Vue.set(item, 'username', data.name);
               // Vue.set(item, 'avatar', data.avatar);
             })
+            console.log(allInfo)
             that.allInfo = allInfo
           })
         } else if (query.filter == "vote") {

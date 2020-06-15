@@ -10,20 +10,19 @@ module.exports = {
       }
     }
   },
-  publicPath: "./",
-  lintOnSave: true,
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://123.56.121.160:8085',   //代理接口
-        changeOrigin: true,
-      }
-    }
-  }
 
-
+  // publicPath: "./",
+  // lintOnSave: true,
   // devServer: {
-  //   proxy: 'http://123.56.121.160:8085/'
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://123.56.121.160:8085',   //代理接口
+  //       changeOrigin: true,
+  //     }
+  //   }
   // }
+
+
+
 
 }
