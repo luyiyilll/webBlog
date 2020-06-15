@@ -63,70 +63,74 @@
       </template>
     </Modal>
     <!-- 评论列表 -->
-    <div class="replies panel panel-default list-panel replies-index">
-      <div class="panel-heading">
-        <div class="total">
-          回复数量: <b>{{ commentList.length }}</b>
-        </div>
-      </div>
-      <div class="panel-body">
-        <ul id="reply-list" class="list-group row">
-          <li v-for="(comment, index) in commentList" :key="comment.commentId" class="list-group-item media">
-            <div class="avatar avatar-container pull-left">
-              <router-link :to="`/${comment.uname}`">
-                <img :src="comment.avatar" class="media-object img-thumbnail avatar avatar-middle">
-              </router-link>
-            </div>
-            <div class="infos">
-              <div class="media-heading">
-                <router-link :to="`/${comment.username}`" class="remove-padding-left author rm-link-color">
-                  {{ comment.username }}
-                </router-link>
+
+    <div id="vcomments" :key="comment" style="background-color: #ffffff"></div>
 
 
-                <span v-if="auth" class="operate pull-right">
-                  <span v-if="comment.username === user.username">
-                    <a href="javascript:;" @click="editComment(comment, index)"><i class="fa fa-edit"></i></a>
-                    <span> ⋅ </span>
-                    <a href="javascript:;" @click="deleteComment(comment.id)"><i class="fa fa-trash-o"></i></a>
-                  </span>
-                </span>
-                </span>
-
-                <div class="meta">
-                  <a :id="`reply${index + 1}`" :href="`#reply${index + 1}`" class="anchor">第{{ index + 1 }}楼</a>
-                  <span> ⋅ </span>
-                  <abbr class="timeago">
-                    {{comment.creat_time}}
-                  </abbr>
-                </div>
-              </div>
-
-              <div class="preview media-body markdown-reply markdown-body" v-html="comment.content"></div>
-            </div>
-          </li>
-        </ul>
-        <div v-show="!commentList.length" class="empty-block">
-          暂无评论~~
-        </div>
-      </div>
-    </div>
+<!--    <div class="replies panel panel-default list-panel replies-index">-->
+<!--      <div class="panel-heading">-->
+<!--        <div class="total">-->
+<!--          回复数量: <b>{{ commentList.length }}</b>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="panel-body">-->
+<!--        <ul id="reply-list" class="list-group row">-->
+<!--          <li v-for="(comment, index) in commentList" :key="comment.commentId" class="list-group-item media">-->
+<!--            <div class="avatar avatar-container pull-left">-->
+<!--              <router-link :to="`/${comment.uname}`">-->
+<!--                <img :src="comment.avatar" class="media-object img-thumbnail avatar avatar-middle">-->
+<!--              </router-link>-->
+<!--            </div>-->
+<!--            <div class="infos">-->
+<!--              <div class="media-heading">-->
+<!--                <router-link :to="`/${comment.username}`" class="remove-padding-left author rm-link-color">-->
+<!--                  {{ comment.username }}-->
+<!--                </router-link>-->
 
 
-    <!-- 评论框 -->
-    <div id="reply-box" class="reply-box form box-block">
-      <textarea v-model="content" v-if="auth" id="editor" ref="content" placeholder="写点什么吧..."></textarea>
-      <textarea v-else disabled class="form-control" placeholder="需要登录后才能发表评论..."></textarea>
-    </div>
-    <div class="form-group reply-post-submit">
-      <button id="reply-btn" :disabled="!auth" @click="comment" class="btn btn-primary">
-        {{ editId ? '保存编辑' : '回复' }}
-      </button>
-      <span v-show="editId" class="help-inline btn-cancel" style="cursor:pointer" @click="cancelEditComment">取消编辑</span>
-      <span v-show="!editId" class="help-inline">Ctrl+Enter</span>
-    </div>
-    <div v-show="content" id="preview-box" class="box preview markdown-body" v-html="content"></div>
-  </div>
+<!--                <span v-if="auth" class="operate pull-right">-->
+<!--                  <span v-if="comment.username === user.username">-->
+<!--                    <a href="javascript:;" @click="editComment(comment, index)"><i class="fa fa-edit"></i></a>-->
+<!--                    <span> ⋅ </span>-->
+<!--                    <a href="javascript:;" @click="deleteComment(comment.id)"><i class="fa fa-trash-o"></i></a>-->
+<!--                  </span>-->
+<!--                </span>-->
+<!--                </span>-->
+
+<!--                <div class="meta">-->
+<!--                  <a :id="`reply${index + 1}`" :href="`#reply${index + 1}`" class="anchor">第{{ index + 1 }}楼</a>-->
+<!--                  <span> ⋅ </span>-->
+<!--                  <abbr class="timeago">-->
+<!--                    {{comment.creat_time}}-->
+<!--                  </abbr>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div class="preview media-body markdown-reply markdown-body" v-html="comment.content"></div>-->
+<!--            </div>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--        <div v-show="!commentList.length" class="empty-block">-->
+<!--          暂无评论~~-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+<!--    &lt;!&ndash; 评论框 &ndash;&gt;-->
+<!--    <div id="reply-box" class="reply-box form box-block">-->
+<!--      <textarea v-model="content" v-if="auth" id="editor" ref="content" placeholder="写点什么吧..."></textarea>-->
+<!--      <textarea v-else disabled class="form-control" placeholder="需要登录后才能发表评论..."></textarea>-->
+<!--    </div>-->
+<!--    <div class="form-group reply-post-submit">-->
+<!--      <button id="reply-btn" :disabled="!auth" @click="comment" class="btn btn-primary">-->
+<!--        {{ editId ? '保存编辑' : '回复' }}-->
+<!--      </button>-->
+<!--      <span v-show="editId" class="help-inline btn-cancel" style="cursor:pointer" @click="cancelEditComment">取消编辑</span>-->
+<!--      <span v-show="!editId" class="help-inline">Ctrl+Enter</span>-->
+<!--    </div>-->
+<!--    <div v-show="content" id="preview-box" class="box preview markdown-body" v-html="content"></div>-->
+<!--  </div>-->
   </div>
 
 </template>
@@ -142,8 +146,12 @@
   import emoji from 'node-emoji'
   import ls from '@/utils/localStorage'
   import QrcodeVue from 'qrcode.vue'
+  import Valine from 'valine';
+
+
 
   export default {
+
     name: 'Content',
     data() {
       return {
@@ -181,13 +189,21 @@
       }
     },
     mounted() {
+      const valine = new Valine({
+        el:document.querySelector('#vcomments'),
+        appId: 'LTI8CaqlxbTEtDLefSdcU749-gzGzoHsz',
+        appKey: 'zUVy6AL8AL8DwpFFjsqYmaI9',
+        visitor: true
+      })
 
-
+      this.valine=valine;
     },
     created() {
       const articleId = this.$route.params.articleId
       this.getArticle(articleId)
       this.updateClickNum(articleId);
+
+
     },
     methods: {
       editArticle() {
