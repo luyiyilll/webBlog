@@ -202,8 +202,6 @@
       const articleId = this.$route.params.articleId
       this.getArticle(articleId)
       this.updateClickNum(articleId);
-
-
     },
     methods: {
       editArticle() {
@@ -240,6 +238,7 @@
             this.article.user_id = user_id
             this.article.title = title
             this.article.content = SimpleMDE.prototype.markdown(emoji.emojify(content, name => name))
+            // this.article.content = content
             this.article.post_date = post_date
             this.article.atype = atype
 
