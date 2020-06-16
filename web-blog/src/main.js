@@ -10,8 +10,9 @@ Vue.prototype.$message = Message;
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import $ from 'jquery'
 Vue.use(ElementUI);
-
+Vue.use($);
 // 引入插件
 import VueSweetalert2 from './plugins/vue-sweetalert2'
 // 使用插件
