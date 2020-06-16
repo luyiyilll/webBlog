@@ -21,6 +21,23 @@ export default [
     component: () => import('@/views/auth/Login')
   },
   {
+    path: '/articles',
+    name: 'TypeNav',
+    component: () => import('@/views/type/TypeNav'),
+    children: [
+      {
+        path: '',
+        name: 'TypeArticle',
+        component: () => import('@/views/type/TypeArticle'),
+      },
+      {
+        path: '/articles/type',
+        name: 'TTypeArticleype',
+        component: () => import('@/views/type/TypeArticle'),
+      }
+    ]
+  },
+  {
     path: '/type/:type',
     name: 'Type',
     component: () => import('@/views/type/Type'),

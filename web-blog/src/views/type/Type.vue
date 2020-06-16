@@ -1,5 +1,5 @@
 <template>
-  <div class="panel panel-default list-panel search-results">
+  <div class="col-md-9 col-sm-12 col-xs-12 main-col pull-right panel panel-default list-panel search-results">
     <div class="panel-body">
       <div v-for="result in results" class="result">
         <div class="flex">
@@ -63,7 +63,6 @@
     methods: {
       // 使用关键字 keyword 获取搜索结果
       getKeyword(type) {
-
         switch (type) {
           case 'life':
             this.type = '程序人生'
@@ -90,7 +89,6 @@
               console.log(err)
             })
             break;
-
         }
       },
       getData(data) {

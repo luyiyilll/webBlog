@@ -100,6 +100,15 @@ export function getTypeArticle (type) {
   })
 }
 
+export function getAllType () {
+  return request({
+    url: 'article/alltype',
+  })
+}
+
+
+
+
 /*管理系统*/
 export function userAndArticle () {
   return request({

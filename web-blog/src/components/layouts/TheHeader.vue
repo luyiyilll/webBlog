@@ -1,6 +1,42 @@
 <template>
+
   <div class="navbar navbar-default topnav">
     <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" @click="toggleNav">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- <router-link to="/" class="navbar-brand flex">
+          <img src="~assets/logo.png" :alt="logo.title">
+          <span class="title">Zero Blog</span>
+        </router-link> -->
+
+      </div>
+
+      <div id="top-navbar-collapse" :class="['collapse', 'navbar-collapse', { in: showCollapsedNav }]">
+        <ul class="nav navbar-nav">
+          <li>
+            <router-link to="/" active-class="active" exact>首页</router-link>
+          </li>
+          <li>
+            <router-link to="/articles" active-class="active" exact>文章标签</router-link>
+          </li>
+        </ul>
+        <div class="navbar-right">
+          <SearchInput />
+          <TheEntry />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 
+    <div class="navbar navbar-default topnav">
+      <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" @click="toggleNav">
           <span class="sr-only">Toggle navigation</span>
@@ -42,8 +78,6 @@
             文章管理
           </li>
         </ul>
-
-        <!-- 入口组件 -->
         <div class="navbar-right">
           <SearchInput />
           <TheEntry />
@@ -51,7 +85,7 @@
       </div>
 
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -67,20 +101,22 @@
       return {
         logo: {
           src: '~assets/logo.png',
-          title: 'Learnku Vue.js',
+          title: 'ZeroBlog',
 
         },
-        is_admin: 0,
-
-        //navList: ['社区', '头条', '问答', '教程'],
-        activeNavIndex: 0,
+        /*原始导航数据*/
+        // activeNavIndex: 0,
         showCollapsedNav: false
+
+
+
+
       }
     },
     computed: {
-      getIndex() {
-        return this.activeNavIndex;
-      }
+      // getIndex() {
+      //   return this.activeNavIndex;
+      // }
     },
     created() {
 
@@ -89,32 +125,40 @@
 
     },
     methods: {
-      changeNavIndex(index) {
-        this.activeNavIndex = index
-        switch (index) {
-          case 0:
-            this.$router.push('/');
-            break;
-          case 1:
-            this.$router.push({ name: 'Type', params: { type: 'life' } })
-            break;
-          case 2:
-            this.$router.push({ name: 'Type', params: { type: 'server' } })
-            break;
-          case 3:
-            this.$router.push({ name: 'Type', params: { type: 'front' } })
-            break;
-          case 4:
-            this.$router.push({ name: 'Type', params: { type: 'front' } })
-            break;
-          case 5:
-            this.$router.push({ name: 'Type', params: { type: 'front' } })
-            break;
-          case 6:
-            this.$router.push({ name: 'Type', params: { type: 'front' } })
-            break;
-        }
-      },
+
+
+
+
+
+
+
+      /*原始导航*/
+      // changeNavIndex(index) {
+      //   this.activeNavIndex = index
+      //   switch (index) {
+      //     case 0:
+      //       this.$router.push('/');
+      //       break;
+      //     case 1:
+      //       this.$router.push({ name: 'Type', params: { type: 'life' } })
+      //       break;
+      //     case 2:
+      //       this.$router.push({ name: 'Type', params: { type: 'server' } })
+      //       break;
+      //     case 3:
+      //       this.$router.push({ name: 'Type', params: { type: 'front' } })
+      //       break;
+      //     case 4:
+      //       this.$router.push({ name: 'Type', params: { type: 'front' } })
+      //       break;
+      //     case 5:
+      //       this.$router.push({ name: 'Type', params: { type: 'front' } })
+      //       break;
+      //     case 6:
+      //       this.$router.push({ name: 'Type', params: { type: 'front' } })
+      //       break;
+      //   }
+      // },
       toggleNav() {
         this.showCollapsedNav = !this.showCollapsedNav
       }
@@ -124,7 +168,7 @@
 </script>
 
 <style scoped>
-  .title {
+  /* .title {
     color: #000;
     margin-left: 10px;
   }
@@ -153,5 +197,40 @@
   li.active {
     border-bottom: 2px solid rgb(108, 166, 205);
     background: rgba(240, 240, 240, .5);
+  } */
+
+  .title {
+    color: #000;
+    margin-left: 10px;
+  }
+
+  .navbar-default .navbar-nav>.active>a {
+    transition: ease-in 0.1s;
+    border-bottom: 2px solid rgb(108, 166, 205);
+    background: rgb(255, 255, 255);
+  }
+
+  ul li {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px;
+    text-align: center;
+  }
+
+  li:hover {
+    background: #000;
+    background: rgba(240, 240, 240, .5);
+    transition: ease-in 0.2s;
+    cursor: pointer;
+  }
+
+  li.active {
+    border-bottom: 2px solid rgb(108, 166, 205);
+    background: rgba(240, 240, 240, .5);
+  }
+
+  .active {
+    border-bottom: 2px solid rgb(108, 166, 205);
   }
 </style>

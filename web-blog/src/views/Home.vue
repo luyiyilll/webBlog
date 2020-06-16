@@ -115,9 +115,7 @@
               }
               let aItem = data;
               allInfo.push(aItem);
-              // Vue.set(item, 'userid', data.id);
-              // Vue.set(item, 'username', data.name);
-              // Vue.set(item, 'avatar', data.avatar);
+
             })
             console.log(allInfo)
             that.allInfo = allInfo
@@ -138,9 +136,7 @@
               }
               let aItem = data;
               allInfo.push(aItem);
-              // Vue.set(item, 'userid', data.id);
-              // Vue.set(item, 'username', data.name);
-              // Vue.set(item, 'avatar', data.avatar);
+
             })
             that.allInfo = allInfo
           }).catch(err => {
@@ -162,9 +158,7 @@
               }
               let aItem = data;
               allInfo.push(aItem);
-              // Vue.set(item, 'userid', data.id);
-              // Vue.set(item, 'username', data.name);
-              // Vue.set(item, 'avatar', data.avatar);
+
             })
             that.allInfo = allInfo
 
@@ -186,9 +180,7 @@
               }
               let aItem = data;
               allInfo.push(aItem);
-              // Vue.set(item, 'userid', data.id);
-              // Vue.set(item, 'username', data.name);
-              // Vue.set(item, 'avatar', data.avatar);
+
             })
             that.allInfo = allInfo
           }).catch(err => {
@@ -208,9 +200,6 @@
       },
       getAllArticles() {
 
-        // allArticlesInfo().then(res => {
-        //   console.log(res.data)
-        // }).catch(err => { })
         allArticles().then(res => {
           let that = this
           this.articleList = res.data
@@ -225,14 +214,12 @@
               Vue.set(item, 'userid', data.id);
               Vue.set(item, 'username', data.name);
               Vue.set(item, 'avatar', data.avatar);
-              //let data = { name: 'luyiyi', avatar: '123' }
-              //that.articleList[index].user = that.data
-              //console.log(that.articleList[index].user)
+
             }).catch(err => {
               console.log(err)
             })
           })
-          // console.log(that.articleList)
+
         })
       }
 
