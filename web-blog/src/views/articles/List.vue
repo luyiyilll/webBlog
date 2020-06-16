@@ -175,4 +175,10 @@
     font-size: 12px;
     color: rgba(180, 180, 180, .9);
   }
+
+  .btn-primary {
+    color: #fff;
+    background-color: rgb(108, 166, 205);
+    border-color: rgb(108, 166, 205);
+  }
 </style>

@@ -8,9 +8,6 @@ export function register (username, password, avatar) {
       password,
       avatar,
     },
-    // headers: {
-    //   'Content-type': 'application/json'
-    // }
   })
 }
 
@@ -95,6 +92,16 @@ export function getActiveUser () {
   })
 }
 
+
+export function getRecentVisit (id) {
+  return request({
+    url: 'user/getrecentvisit',
+    method: 'post',
+    params: {
+      id
+    }
+  })
+}
 
 /*管理系统*/
 export function getAllUsers () {
