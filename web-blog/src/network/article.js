@@ -107,6 +107,17 @@ export function getAllType () {
 }
 
 
+export function typeArticlesInfo (type) {
+  return request({
+    url: 'article/alltypearticlesinfo',
+    params: {
+      type
+    }
+
+  })
+}
+
+
 
 
 /*管理系统*/

@@ -1,124 +1,96 @@
 <template>
-  <div class="col-md-9 col-sm-12 col-xs-12 main-col pull-right panel panel-default list-panel search-results">
-    <div class="panel-body">
-      <div v-for="article in articles" class="result">
-        <div class="title">
-          <router-link :to="`/${article.username}/articles/${article.user_id}/content`">
-            <p class="title-text" v-html="article.title"></p>
-          </router-link>
-          <span class="post-date">post on</span>
-          <span class="post-date">
-            {{ article.post_date }}
-          </span>
+  <div class="blog-container">
+    <div class="blog-pages col-md-10 col-sm-10 col-xs-12">
+      <div class="panel panel-default corner-radius">
+        <div class="panel-body text-center topic-author-box blog-info">
+          <ul>
+            <li v-for="(item,index) in type" class="tag" :class="currentIndex==index?`active-${index}`:`type-${index}`"
+              @click="changeArticle(item.title,index)">
+              <router-link :to="`/articles/${item.alias}`">{{item.title}}</router-link>
+            </li>
+          </ul>
         </div>
-        <div class="desc" v-html="article.content.slice(0,100)"></div>
-        <div class="flex">
-          <router-link :to="`/${article.username}/articles/${article.user_id}/content`">
-            <i :class="`fa fa-eye`" class="font-color-red"></i> <span
-              class="font-color-red">{{article.click_num}}</span>
-          </router-link>
-          <router-link :to="`/${article.username}/articles/${article.user_id}/content`" class="margin-left">
-            <i :class="`fa fa-commenting-o`" class="font-color"></i><span
-              class="font-color-999">{{article.comment_num}}</span>
-          </router-link>
-          <div class="margin-left font-color"><i :class="`fa fa-heart-o`"></i><span
-              class="font-color-999">{{article.likes_num}}</span></div>
-        </div>
-
-
       </div>
-      <div v-if="!articles" class="empty-block">
-        没有任何数据~~
-      </div>
+      <type-list></type-list>
     </div>
   </div>
 </template>
 
 <script>
-  import { allArticles, userAndArticle } from 'network/article'
-  import { userInfoById } from 'network/user'
+  import TypeList from '@/views/type/Type'
+  import { allArticles, userAndArticle, getAllType } from 'network/article'
+  import { userInfoById, userInfo, getRecentVisit } from 'network/user'
   import Vue from 'vue'
   export default {
     name: 'TypeArticle',
     data() {
       return {
-        articles: []
-
+        type: [],
+        index: 0,
+        currentIndex: 0
       }
     },
-    computed: {
-
+    components: {
+      TypeList
     },
     created() {
-      this.getAllArticle()
-
+      this.getData()
     },
-    // beforeRouteEnter(to, from, next) {
-    //   console.log(to)
-    //   next(vm => {
-    //     vm.getKeyword(to.params.type)
-    //   })
-    // },
-    // // 当前路由改变，该组件被复用时，获取搜索结果
-    // beforeRouteUpdate(to, from, next) {
-    //   this.getKeyword(to.params.type)
-    //   next()
-    // },
 
     methods: {
-      getAllArticle() {
-        userAndArticle().then(res => {
-          let list = []
+      getData() {
+        getAllType().then(res => {
+          this.type = res.data
+          let list = [{
+            title: '全部文章',
+            style: 'border:1px solid rgb(247,186,42);color: rgb(247,186,42)',
+            alias: 'all'
+          }]
           res.data.forEach((item, index) => {
+            let alias = ''
+            let style = 'type0'
+            if (item == '程序人生') {
+              alias = 'life'
+              style = 'type1'
+
+            } else if (item == '服务器端') {
+              alias = 'server'
+              style = 'type2'
+
+            } else if (item == 'HTML/CSS') {
+              alias = 'front'
+              style = 'type3'
+
+            }
             let data = {
-              aid: item[0].id,
-              user_id: item[0].user_id,
-              title: item[0].title,
-              content: item[0].content,
-              post_date: item[0].post_date,
-              atype: item[0].atype,
-              username: item[1][1],
-              avatar: item[1][2],
-              click_num: item[2][0],
-              comment_num: item[2][1],
-              likes_num: item[2][2]
+              title: item,
+              style: style,
+              alias: alias
+
             }
             list.push(data)
           })
-          this.articles = list
-          console.log(this.articles)
+          this.type = list
+
+        }).catch(err => {
+          console.log(err)
         })
+      },
 
-
-
-        // allArticles().then(res => {
-        //   let that = this
-        //   this.articles = res.data
-        //   this.articles.forEach(function (item, index, array) {
-        //     userInfoById(item.user_id).then(res => {
-        //       let data = {
-        //         id: res.data[0],
-        //         name: res.data[1],
-        //         avatar: res.data[2]
-        //       }
-
-        //       Vue.set(item, 'userid', data.id);
-        //       Vue.set(item, 'username', data.name);
-        //       Vue.set(item, 'avatar', data.avatar);
-        //     }).catch(err => {
-        //       console.log(err)
-        //     })
-        //   })
-        //   console.log(that.articles)
-        // })
+      changeArticle(type, index) {
+        this.currentIndex = index
       }
-
-
     }
   }
 </script>
 
 <style scoped>
+  .blog-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
   .highlight {
     font-size: 20px;
     font-weight: bold;
@@ -187,7 +159,67 @@
     margin-left: 10px;
   }
 
-  /* .margin-left:hover {
-    color: #000;
-  } */
+  .tag {
+    padding: 3px 6px;
+  }
+
+  ul {
+    display: flex;
+    justify-self: start;
+    flex-wrap: wrap;
+    padding-inline-start: 0px;
+  }
+
+  ul>li {
+    font-size: 12px;
+    height: 25px;
+    list-style: none;
+    display: flex;
+    border-radius: 3px;
+    margin: 5px 5px;
+  }
+
+  .blog-container .panel {
+    margin-bottom: 25px;
+  }
+
+  .type-0 {
+    border: 1px solid rgb(247, 186, 42);
+    color: rgb(247, 186, 42)
+  }
+
+  .active-0 {
+    background: rgb(247, 186, 42);
+    color: #fff
+  }
+
+  .type-1 {
+    border: 1px solid rgb(103, 194, 58);
+    color: rgb(103, 194, 58)
+  }
+
+  .active-1 {
+    background: rgb(103, 194, 58);
+    color: #fff
+  }
+
+  .type-2 {
+    border: 1px solid rgb(245, 108, 108);
+    color: rgb(245, 108, 108)
+  }
+
+  .active-2 {
+    background: rgb(245, 108, 108);
+    color: #fff
+  }
+
+  .type-3 {
+    border: 1px solid rgb(230, 162, 60);
+    color: rgb(230, 162, 60)
+  }
+
+  .active-3 {
+    background: rgb(230, 162, 60);
+    color: #fff
+  }
 </style>

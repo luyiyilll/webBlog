@@ -141,17 +141,6 @@
               this.$message.error('该用户已存在');
             })
           }
-
-          // 
-          // if (localUser) {
-          //   if (localUser.name === user.name) {
-          //     this.showMsg('用户名已存在')
-          //   } else {
-          //     this.login(user)
-          //   }
-          // } else {
-          //   this.login(user)
-          // }
         }
       },
       login(user) {

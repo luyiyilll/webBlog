@@ -54,9 +54,7 @@
 </template>
 
 <script>
-  // 引入 mapState 辅助函数
   import { getArticleComment, deleteComment } from 'network/comment'
-
   export default {
     name: 'AdminComment',
     data() {
@@ -86,7 +84,6 @@
             }
             cList.push(data)
           })
-          console.log(cList)
           this.List = cList
         }).catch(err => {
           console.log(err)

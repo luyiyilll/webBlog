@@ -32,35 +32,14 @@
             </template>
           </el-table-column>
         </el-table>
-
-        <!-- 
-        <ul class="list-group">
-          <li v-for="article in articleList" class="list-group-item">
-            <div class="post_date">
-              <img :src="article.avatar" class="avatar avatar-small">
-              <div>
-                <router-link :to="`/${article.username}/articles/${article.aid}/content`" class="title">
-                  {{ article.title }}-{{article.username}}
-                </router-link>
-                <p class="timeago">{{ article.post_date}}</p>
-              </div>
-
-            </div>
-            <span class="meta pull-right">
-              <a href="javascript:;" @click="deleteArticle(article.aid)"><i class="fa fa-trash-o"></i></a>
-            </span>
-          </li>
-        </ul> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  // 引入 mapState 辅助函数
   import { userAndArticle, deleteArticle } from 'network/article'
   import { userInfo } from 'network/user'
-
   export default {
     name: 'AdminArticle',
     data() {

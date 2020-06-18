@@ -103,6 +103,20 @@ export function getRecentVisit (id) {
   })
 }
 
+
+export function addVisitedUser (touserid, userid) {
+  return request({
+    url: 'user/addvisituser',
+    method: 'post',
+    params: {
+      touserid,
+      userid
+    }
+  })
+
+}
+
+
 /*管理系统*/
 export function getAllUsers () {
   return request({

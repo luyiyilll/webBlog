@@ -1,9 +1,5 @@
 <template>
   <div class="users-show">
-    <!-- <div @getData='getDatas(arguments)'>
-      <Message :show.sync="msgShow" :type="msgType" :msg="msg" />
-    </div> -->
-
     <div class="col-md-3 main-col">
       <div class="box">
         <div class="padding-md">
@@ -45,18 +41,6 @@
           }
         ]
       }
-    },
-    computed: {
-      // getMsg() {
-      //   return this.$store.state.msg;
-      // },
-      // getMsgType() {
-      //   return this.$store.state.msgType;
-      // },
-      // getMsgShow() {
-      //   return this.$store.state.msgShow
-      // }
-
     },
   }
 </script>

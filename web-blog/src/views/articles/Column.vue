@@ -30,7 +30,10 @@
             <div v-for="(item,index) in users" class="visit-user-content-item">
               <div class="visit-user-avatar-outer">
                 <div class="visit-user-avatar-box">
-                  <img :src="item.avatar" alt="暂无头像" width="40px" height="40px" class="visit-user-avatar">
+                  <router-link :to="`/${item.name}`">
+                    <img :src="item.avatar" alt="暂无头像" width="40px" height="40px" class="visit-user-avatar">
+                  </router-link>
+
                 </div>
               </div>
               <div class="visit-text">{{item.name}}</div>
@@ -49,7 +52,7 @@
 <script>
 
   import { userArticle } from 'network/article'
-  import { userInfo, getRecentVisit } from 'network/user'
+  import { userInfo, getRecentVisit, addVisitedUser } from 'network/user'
   export default {
     name: 'Column',
     data() {
@@ -77,7 +80,6 @@
     },
     created() {
       this.getData()
-
     },
     methods: {
       getData() {
@@ -95,31 +97,43 @@
           }).catch(err => {
             console.log(err)
           })
+          if (this.info.id != this.$store.state.user.id) {
+            this.addVistiedUser(this.info.id, this.$store.state.user.id);
+          } else {
+            this.getVisitedUser(this.info.id);
+          }
 
-          getRecentVisit(this.info.id).then(res => {
-            console.log(res.data)
-            let list = []
 
-            res.data.forEach((item, index) => {
-              console.log(item[3])
-              let intro = ""
-              if (item[3] && item[3].length > 5) {
-                intro = item[3].slice(0, 5) + "..."
-              } else {
-                intro = item[3]
-              }
-              let data = {
-                id: item[0],
-                name: item[1],
-                avatar: item[2],
-                introduce: intro
-              }
-              list.push(data)
-            })
-            this.users = list
-          }).catch(err => {
+        }).catch(err => {
 
+        })
+      },
+      addVistiedUser(touserid, id) {
+        addVisitedUser(touserid, id).then(res => {
+          this.getVisitedUser(touserid);
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      getVisitedUser(id) {
+        getRecentVisit(id).then(res => {
+          let list = []
+          res.data.forEach((item, index) => {
+            let intro = ""
+            if (item[3] && item[3].length > 5) {
+              intro = item[3].slice(0, 5) + "..."
+            } else {
+              intro = item[3]
+            }
+            let data = {
+              id: item[0],
+              name: item[1],
+              avatar: item[2],
+              introduce: intro
+            }
+            list.push(data)
           })
+          this.users = list
         }).catch(err => {
 
         })

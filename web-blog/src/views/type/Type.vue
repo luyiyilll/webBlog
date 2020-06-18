@@ -1,31 +1,31 @@
 <template>
-  <div class="col-md-9 col-sm-12 col-xs-12 main-col pull-right panel panel-default list-panel search-results">
+  <div class=" panel panel-default list-panel search-results">
     <div class="panel-body">
-      <div v-for="result in results" class="result">
-        <div class="flex">
-          <div class="bottom">
-            <div class="title">
-              <router-link :to="`/${result.username}/articles/${result.id}/content`">
-                <p class="t" v-html="result.title"></p>
-              </router-link>
-              <span class="post-date">post on</span>
-              <span class="post-date">
-                {{ result.post_date }}
-              </span>
-            </div>
-            <div class="desc" v-html="result.content"></div>
-            <div>
-              <el-button round size="medium" icon="el-icon-search" plain>
-                <router-link :to="`/${result.username}/articles/${result.id}/content`">查看更多</router-link>
-              </el-button>
-            </div>
-          </div>
-
+      <div v-for="article in articles" class="result">
+        <div class="title">
+          <router-link :to="`/${article.username}/articles/${article.user_id}/content`">
+            <p class="title-text" v-html="article.title"></p>
+          </router-link>
+          <span class="post-date">post on</span>
+          <span class="post-date">
+            {{ article.post_date }}
+          </span>
         </div>
-
-        <!-- <hr> -->
+        <div class="desc" v-html="article.content.slice(0,100)"></div>
+        <div class="flex">
+          <router-link :to="`/${article.username}/articles/${article.user_id}/content`">
+            <i :class="`fa fa-eye`" class="font-color-red"></i> <span
+              class="font-color-red">{{article.click_num}}</span>
+          </router-link>
+          <router-link :to="`/${article.username}/articles/${article.user_id}/content`" class="margin-left">
+            <i :class="`fa fa-commenting-o`" class="font-color"></i><span
+              class="font-color-999">{{article.comment_num}}</span>
+          </router-link>
+          <div class="margin-left font-color"><i :class="`fa fa-heart-o`"></i><span
+              class="font-color-999">{{article.likes_num}}</span></div>
+        </div>
       </div>
-      <div v-if="!results" class="empty-block">
+      <div v-if="!articles" class="empty-block">
         没有任何数据~~
       </div>
     </div>
@@ -33,98 +33,181 @@
 </template>
 
 <script>
-  import { getTypeArticle } from 'network/article'
+  import { getTypeArticle, typeArticlesInfo } from 'network/article'
   export default {
-    name: 'Search',
+    name: 'type',
     data() {
       return {
         type: '', // 关键字
-        result: ''
-
+        articles: [],
       }
     },
     computed: {
-      results() {
-        return this.result;
+    },
+
+    created() {
+      this.getKeyword(this.$route.params.type)
+    },
+    watch: {
+      '$route'(to, from) { // 监听路由是否变化
+        console.log(to)
+        console.log(from)
+        if (to.params.type !== from.params.type) {
+          this.getKeyword(to.params.type) // 重新加载数据
+        }
       }
-    },
-    beforeRouteEnter(to, from, next) {
-      console.log(to)
-      next(vm => {
-        vm.getKeyword(to.params.type)
-      })
-    },
-    // 当前路由改变，该组件被复用时，获取搜索结果
-    beforeRouteUpdate(to, from, next) {
-      this.getKeyword(to.params.type)
-      next()
     },
 
     methods: {
       // 使用关键字 keyword 获取搜索结果
       getKeyword(type) {
+
         switch (type) {
+          case 'all':
+            this.getAllArticle(type);
+            break;
           case 'life':
             this.type = '程序人生'
-            getTypeArticle(this.type).then(res => {
-              this.getData(res.data);
-            }).catch(err => {
-              console.log(err)
-            })
+            this.getAllArticle(type);
             break;
           case 'server':
             this.type = '服务器端'
-            getTypeArticle(this.type).then(res => {
-              this.getData(res.data);
-
-            }).catch(err => {
-              console.log(err)
-            })
+            this.getAllArticle(type);
             break;
           case 'front':
             this.type = 'HTML/CSS'
-            getTypeArticle(this.type).then(res => {
-              this.getData(res.data);
-            }).catch(err => {
-              console.log(err)
-            })
+            this.getAllArticle(type);
             break;
         }
       },
-      getData(data) {
-        let articles = []
-        data.forEach((item, index, array) => {
-          let time = new Date(item[3])
-          let m = time.getMonth() + 1
-          let d = time.getDate()
-          let y = time.getFullYear()
-          let c = y + "-" + m + "-" + d;
-          let cont = ""
-          if (item[2].length > 20) {
-            cont = item[2].slice(0, 20) + "......"
-          } else {
-            cont = item[2]
-          }
-          let article = {
-            id: item[0],
-            title: item[1],
-            content: cont,
-            post_date: c,
-            avatar: item[4],
-            username: item[5],
-            type: item[6]
-          }
-          articles.push(article)
+      getAllArticle(type) {
+        typeArticlesInfo(type).then(res => {
+          let list = []
+          res.data.forEach((item, index) => {
+            let data = {
+              aid: item[0].id,
+              user_id: item[0].user_id,
+              title: item[0].title,
+              content: item[0].content,
+              post_date: item[0].post_date,
+              atype: item[0].atype,
+              username: item[1][1],
+              avatar: item[1][2],
+              click_num: item[2][0],
+              comment_num: item[2][1],
+              likes_num: item[2][2]
+            }
+            list.push(data)
+          })
+          this.articles = list
         })
-        this.result = articles
-        console.log(this.result);
-      }
+
+
+      },
     }
   }
 </script>
 
 <style scoped>
+  .blog-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
   .highlight {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .title {
+    margin-top: 20px;
+  }
+
+  .title-text {
+    color: #000;
+    font-weight: bold;
+  }
+
+  .result {
+    border-bottom: 1px solid rgb(240, 240, 240);
+    padding-bottom: 20px;
+  }
+
+  .justify-center {
+    justify-content: center;
+  }
+
+
+  .avatar {
+    margin-top: 20px;
+  }
+
+  .post-date {
+    font-size: 10px;
+    color: #999;
+  }
+
+  .search-results a {
+    color: #fff;
+  }
+
+
+  .desc {
+    word-wrap: break-word;
+  }
+
+  .font-color-red {
+    color: rgb(245, 108, 108);
+  }
+
+  .font-color-999 {
+    color: #999;
+  }
+
+  .font-color {
+    color: #999;
+  }
+
+  .font-color:hover {
+    color: #000;
+    cursor: pointer;
+  }
+
+  i {
+    margin-right: 3px;
+  }
+
+  .margin-left {
+    color: #999;
+    margin-left: 10px;
+  }
+
+  .tag {
+    padding: 3px 6px;
+  }
+
+  ul {
+    display: flex;
+    justify-self: start;
+    flex-wrap: wrap;
+    padding-inline-start: 0px;
+  }
+
+  ul>li {
+    font-size: 12px;
+    height: 25px;
+    list-style: none;
+    display: flex;
+    border-radius: 3px;
+    margin: 5px 5px;
+  }
+
+  .blog-container .panel {
+    margin-bottom: 25px;
+  }
+
+  /* .highlight {
     font-size: 20px;
     font-weight: bold;
   }
@@ -262,5 +345,5 @@
 
   .desc {
     word-wrap: break-word;
-  }
+  } */
 </style>

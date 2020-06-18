@@ -39,37 +39,10 @@
             </template>
           </el-table-column>
         </el-table>
-
-
-
-
-        <!-- <ul class="list-group">
-          <li v-for="(user,index) in userList" class="list-group-item">
-            <img :src="user.avatar" class="avatar avatar-small">
-            <router-link :to="`/${user.username}`" class="title">
-              第{{ user.id}}位用户-{{user.username}}
-            </router-link>
-            <span class="meta pull-right">
-              <span class="timeago">
-
-                <a href="javascript:;" @click="edit(index)"><i class="fa fa-edit"></i></a>
-                <a href="javascript:;" @click="deleteUser(user.id,user.username)"><i class="fa fa-trash-o"></i></a>
-              </span>
-            </span>
-          </li>
-        </ul> -->
       </div>
     </div>
     <el-dialog title="添加用户" :visible.sync="dialogFormVisible" center width="370px">
       <el-form :model="formuser">
-        <!-- <div class="form-group flex">
-          <img :src="formuser.avatar" class="avatar-preview-img">
-          <div class="avatar-address">
-            <div class="avatar-pre-title">头像地址链接:</div>
-            <input v-model.trim.lazy="formuser.avatar" v-validator.required="{ title: '头像地址' }" type="text"
-              class="form-control avatar-input">
-          </div>
-        </div> -->
 
         <div class="form-group">
           <el-input v-model.trim="formuser.username" @blur="checkUsername(formuser.username)" placeholder="请输入用户名"
@@ -86,11 +59,6 @@
             prefix-icon="el-icon-success">
           </el-input>
         </div>
-        <!-- <div class="form-group">
-          <label>性别</label>
-          <el-radio v-model="formuser.sex" label="male">男</el-radio>
-          <el-radio v-model="formuser.sex" label="female">女</el-radio>
-        </div> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -110,11 +78,6 @@
               class="form-control avatar-input">
           </div>
         </div>
-        <!-- <div class="form-group flex">
-          <el-input v-model.trim="edituser.username" @blur="checkUsername(edituser.username)" placeholder="请输入用户名"
-            prefix-icon="el-icon-user-solid">
-          </el-input>
-        </div> -->
         <div class="form-group">
           <el-input v-model.trim="edituser.password" id="password" @blur="checkPassword(edituser.password)" type="text"
             placeholder="请填写密码" prefix-icon="el-icon-warning">
@@ -155,8 +118,6 @@
 </template>
 
 <script>
-  // 引入 mapState 辅助函数
-
   import { getAllUsers, register, deleteUser, adminUpdateUser } from 'network/user'
 
   export default {
@@ -179,7 +140,6 @@
         checkpass: false,
         checkcpass: false,
         dialogFormVisible: false,
-        // formLabelWidth: '120px',
 
         dialogEditVisible: false,
         edituser: {
@@ -339,26 +299,6 @@
           }
         })
       },
-      // deleteUser(uid, username) {
-      // this.$swal({
-      //   text: '你确定要删除此用户吗?',
-      //   confirmButtonText: '删除'
-      // }).then((res) => {
-      //   if (res.value) {
-      //     // 此时不用传入 comment
-      //     deleteUser(uid, username).then(res => {
-      //       this.getAllUsers()
-      //       this.$message({
-      //         message: '删除成功',
-      //         type: 'success'
-      //       });
-      //     }).catch(err => {
-      //       this.$message.error('删除失败');
-      //     })
-      //   }
-      // })
-      // },
-
       handleEdit(index, row) {
         let id = row.id
         this.edituser.password = row.password
@@ -372,10 +312,6 @@
       },
 
       editUser() {
-
-        // if (!this.checkuser) {
-        //   this.$message.error('用户名要求以字母开头的单词字符！');
-        // } else 
         if (!this.checkpass) {
           this.$message.error('密码要求 6 ~ 16 个单词字符！');
         } else {

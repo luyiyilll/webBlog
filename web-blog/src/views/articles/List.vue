@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-9 left-col pull-right">
+  <div class="col-md-9 col-xs-12 col-sm-12 left-col pull-right">
     <div class="panel article-body article-index">
       <div class="panel-body">
         <h1 class="all-articles">
@@ -27,7 +27,8 @@
               v-for="(article,index) in articleList">
               <div class="flex">
                 <div class="title">
-                  {{article.title}}
+                  <router-link :to="`/${article.username}/articles/${article.id}/content`">{{article.title}}
+                  </router-link>
                 </div>
                 <div class="time">{{article.post_time}}</div>
               </div>
@@ -60,9 +61,8 @@
 </template>
 
 <script>
-  // 引入 mapState 辅助函数
   import { userArticle } from 'network/article'
-  import { userInfo } from 'network/user'
+  import { userInfo, addVisitedUser } from 'network/user'
   import { Timeline, TimelineItem, TimelineTitle } from 'vue-cute-timeline'
 
   export default {
@@ -91,6 +91,7 @@
     watch: {
       '$route'(to, from) { // 监听路由是否变化
         if (to.params.user !== from.params.user) {
+
           this.getData() // 重新加载数据
         }
       }
@@ -106,11 +107,9 @@
             name: res.data[1],
             avatar: res.data[2]
           }
-
-
           userArticle(this.$route.params.user).then(res => {
             let allArticle = []
-            console.log(res.data)
+
             res.data.forEach((item, index) => {
               let content = ""
               if (item.content.length > 100) {
@@ -120,6 +119,7 @@
               }
 
               let data = {
+                id: item.id,
                 title: item.title,
                 bg_color: (index % 2) == 1 ? "rgb(108,166,205)" : "#f2d7e1",
                 icon_size: (index % 2) == 1 ? "large" : "small",
@@ -130,13 +130,11 @@
             })
             this.articleList = allArticle
 
-
-            console.log(this.articleList)
             this.aNum = this.articleList.length
             this.user_id = this.articleList[0].user_id
 
           }).catch(err => {
-            console.log(err)
+
           })
         }).catch(err => {
           console.log(err)
@@ -147,11 +145,6 @@
 </script>
 
 <style scoped>
-  /* .timeline {
-    border-bottom: 1px dotted var(--timelineTheme);
-
-  } */
-
   .timeline-item:last-child {
     border-bottom: 1px dotted var(--timelineTheme);
   }
@@ -180,5 +173,9 @@
     color: #fff;
     background-color: rgb(108, 166, 205);
     border-color: rgb(108, 166, 205);
+  }
+
+  a {
+    color: #999;
   }
 </style>

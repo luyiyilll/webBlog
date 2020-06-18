@@ -83,8 +83,6 @@
       }
     },
     created() {
-      console.log("home")
-      console.log(this.$store.state.user)
       this.getAllArticles()
       this.getSortList(this.$route.query)
     },
@@ -117,7 +115,6 @@
               allInfo.push(aItem);
 
             })
-            console.log(allInfo)
             that.allInfo = allInfo
           })
         } else if (query.filter == "vote") {
