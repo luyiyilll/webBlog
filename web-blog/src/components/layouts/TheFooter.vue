@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container flex justify-center">
-      <div class="row footer-top">
+      <div class="">
         <p class="padding-top-xsm">{{ description }}</p>
         <div class="text-md">
           <a v-for="item in contacts" v-title="item.title" :href="item.link" :style="contactStyle" target="_blank">
@@ -9,7 +9,11 @@
           </a>
         </div>
         <br>
-        <span v-html="designer"></span>
+        <div v-html="designer1"></div>
+
+        <!-- <div v-html="designer2"></div>
+
+        <div v-html="designer3"></div> -->
       </div>
     </div>
   </footer>
@@ -45,10 +49,32 @@
         contactStyle: {
           paddingRight: '8px'
         },
-        designer: `
+        designer1: `
         <span style="font-size:0.9em">Designed by
           <span style="color: #e27575;font-size: 14px;">❤</span>
           <a href="https://github.com/luyiyilll"target="_blank"style="color:inherit">Sarah Lu</a>
+        </span>
+        <span style="font-size:0.9em">
+          <span style="color: #e27575;font-size: 20px;">♬</span>
+          <a href="https://github.com/liu8926847"target="_blank"style="color:inherit">Song Liu</a>
+        </span>
+        <span style="font-size:0.9em">
+          <span style="color: #e27575;font-size: 22px;">☺</span>
+          <a href="https://github.com/dnhy"target="_blank"style="color:inherit">dnhy</a>
+        </span>
+      `,
+
+        designer2: `
+        <span style="font-size:0.9em">Designed by
+          <span style="color: #e27575;font-size: 14px;">❤</span>
+          <a href="https://github.com/luyiyilll"target="_blank"style="color:inherit">Song Liu</a>
+        </span>
+      `,
+
+        designer3: `
+        <span style="font-size:0.9em">Designed by
+          <span style="color: #e27575;font-size: 14px;">❤</span>
+          <a href="https://github.com/luyiyilll"target="_blank"style="color:inherit">dnhy</a>
         </span>
       `,
       }
@@ -65,5 +91,10 @@
 
   .footer {
     position: relative;
+  }
+
+  .flex {
+    text-align: center;
+    justify-content: center;
   }
 </style>
