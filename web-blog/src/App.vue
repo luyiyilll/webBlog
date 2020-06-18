@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" @mousedown.left="createLoves($event)" @mouseup="removeSmallHert">
+    <back-ground ref="background"></back-ground>
     <TheHeader />
     <div id="main-container" class="container main-container">
       <router-view />
@@ -9,15 +10,24 @@
 </template>
 
 <script>
-
+  import BackGround from '@/components/common/Background'
   import TheHeader from '@/components/layouts/TheHeader'
   import TheFooter from '@/components/layouts/TheFooter'
   export default {
     name: 'app',
     components: {
       TheHeader,
-      TheFooter
-    }
+      TheFooter,
+      BackGround
+    },
+    methods: {
+      createLoves() {
+        this.$refs.background.createLoves(event)
+      },
+      removeSmallHert() {
+        this.$refs.background.removeSmallHert()
+      },
+    },
   }
 </script>
 

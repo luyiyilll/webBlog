@@ -18,7 +18,7 @@
             <router-link :to="'/articles/'+'all'" active-class="active" exact>文章标签</router-link>
           </li>
           <li>
-            <router-link to="/record" active-class="active" exact>随便</router-link>
+            <router-link to="/record" active-class="active" exact>个人随笔</router-link>
           </li>
         </ul>
         <div class="navbar-right">

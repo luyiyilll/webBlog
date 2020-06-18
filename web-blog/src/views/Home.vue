@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="login">
+
     <Message :show.sync="msgShow" :type="msgType" :msg="msg" />
 
 
@@ -58,6 +59,7 @@
   import { allArticles, allArticlesInfo, sortList } from 'network/article'
   import { userInfoById } from 'network/user'
   import TheSidebar from '@/components/layouts/TheSidebar'
+
   import Vue from 'vue'
   export default {
     name: 'Home',
@@ -75,7 +77,8 @@
       }
     },
     components: {
-      TheSidebar
+      TheSidebar,
+
     },
     computed: {
       auth() {
@@ -93,6 +96,9 @@
       })
     },
     methods: {
+
+
+
       getSortList(query) {
         let that = this
         let allInfo = [];
@@ -234,5 +240,11 @@
 <style scoped>
   .avatar {
     cursor: pointer;
+  }
+
+  #login {
+
+    width: 100%;
+    height: 100%;
   }
 </style>
