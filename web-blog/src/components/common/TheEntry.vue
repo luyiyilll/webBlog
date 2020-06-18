@@ -19,7 +19,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/articles/create">
+            <router-link to="/article/create">
               <i class="fa fa-paint-brush text-md"></i>
               创作文章
             </router-link>
