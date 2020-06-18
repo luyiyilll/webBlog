@@ -34,6 +34,11 @@ export default [
     ]
   },
   {
+    path: '/record',
+    name: 'Record',
+    component: () => import('@/views/record/Record')
+  },
+  {
     path: '/users/edit',
     component: () => import('@/views/users/Edit'),
     children: [
