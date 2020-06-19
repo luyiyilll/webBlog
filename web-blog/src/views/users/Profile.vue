@@ -5,20 +5,6 @@
         <h4><b>个人资料</b></h4>
         <hr>
         <div class="form-horizontal" data-validator-form>
-          <!-- <div class="flex">
-            <div class="avatar-box">
-              <img :src="avatar" alt="头像" class="avatar">
-            </div>
-            <div class="username">
-              <div class="">
-                <span>第{{id}}用户：{{username}}</span>
-              </div>
-            </div>
-          </div>
-          <div class="flex">
-            <div class="update-avatar">修改头像</div>
-            <div class="border"></div>
-          </div> -->
           <div class="form-group ">
             <label class="col-sm-2 control-label">学校</label>
             <div class="col-sm-6">
@@ -52,19 +38,6 @@
               </select>
             </div>
           </div>
-          <!-- <div class="form-group">
-            <label class="col-sm-2 control-label">兴趣</label>
-            <div class="col-sm-6">
-              <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false"
-                @close="handleClose(tag)">
-                {{tag}}
-              </el-tag>
-              <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small"
-                @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
-              </el-input>
-              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-            </div>
-          </div> -->
           <div class="form-group">
             <label class="col-sm-2 control-label">个人简介</label>
             <div class="col-sm-6">
@@ -96,13 +69,6 @@
         college: '',//学历
         sex: '', // 性别
         introduction: '', // 个人简介,
-        // hobbies: [], // 兴趣
-
-        // dynamicTags: ['标签一', '标签二', '标签三'],
-        // inputVisible: false,
-        // inputValue: '',
-        // count: 0,
-
 
       }
     },
@@ -150,10 +116,6 @@
 
       },
 
-      // handleClose(tag) {
-      //   this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-      //   this.count--;
-      // },
 
       showInput() {
         this.inputVisible = true;
@@ -162,20 +124,6 @@
         });
       },
 
-      // handleInputConfirm() {
-      //   console.log(this.count)
-      //   if (this.count < 8) {
-      //     let inputValue = this.inputValue;
-      //     if (inputValue) {
-      //       this.dynamicTags.push(inputValue);
-      //       this.count++;
-      //     }
-      //     this.inputVisible = false;
-      //     this.inputValue = '';
-      //   } else {
-      //     this.showMsg("最多只能添加8个兴趣标签", type = 'wraning')
-      //   }
-      // },
 
       showMsg(msg, type = 'success') {
         this.msg = msg
